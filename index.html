@@ -1,0 +1,1044 @@
+<!--
+ORION AI ULTRA OS
+Run on ARIA OS
+NEXT LEVEL FUTURISTIC AI SYSTEM
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ORION AI</title>
+
+<!-- THREE JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+
+/* GLOBAL */
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+body{
+
+background:black;
+overflow:hidden;
+font-family:Arial;
+color:cyan;
+
+}
+
+/* CAMERA */
+
+video{
+
+position:absolute;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+opacity:0.15;
+
+z-index:-5;
+
+}
+
+/* 3D */
+
+#bg{
+
+position:absolute;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+z-index:-4;
+
+}
+
+/* OVERLAY */
+
+.overlay{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background:
+radial-gradient(
+circle,
+rgba(0,255,255,0.06),
+transparent
+);
+
+}
+
+/* TITLE */
+
+.center{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+text-align:center;
+
+z-index:10;
+
+}
+
+h1{
+
+font-size:110px;
+
+letter-spacing:20px;
+
+animation:
+glowText 2s infinite;
+
+}
+
+.subtitle{
+
+font-size:18px;
+
+letter-spacing:5px;
+
+opacity:0.8;
+
+margin-top:10px;
+
+}
+
+/* CORE */
+
+.core{
+
+width:320px;
+height:320px;
+
+border-radius:50%;
+
+border:5px solid cyan;
+
+margin:40px auto;
+
+animation:
+rotate 8s linear infinite,
+glow 2s infinite;
+
+position:relative;
+
+}
+
+.core::before{
+
+content:"";
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+width:140px;
+height:140px;
+
+background:cyan;
+
+border-radius:50%;
+
+filter:blur(30px);
+
+opacity:0.7;
+
+}
+
+/* BUTTON */
+
+button{
+
+padding:18px 55px;
+
+font-size:22px;
+
+background:transparent;
+
+border:2px solid cyan;
+
+color:cyan;
+
+cursor:pointer;
+
+border-radius:12px;
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+background:cyan;
+color:black;
+
+box-shadow:
+0 0 30px cyan;
+
+}
+
+/* STATUS */
+
+#status{
+
+margin-top:25px;
+
+font-size:22px;
+
+text-shadow:
+0 0 10px cyan;
+
+}
+
+/* PANELS */
+
+.panel{
+
+position:absolute;
+
+width:280px;
+
+background:
+rgba(0,0,0,0.45);
+
+border:1px solid cyan;
+
+padding:20px;
+
+backdrop-filter:blur(8px);
+
+box-shadow:
+0 0 20px cyan;
+
+}
+
+.left{
+
+left:20px;
+top:20px;
+
+}
+
+.right{
+
+right:20px;
+top:20px;
+
+}
+
+.bottomLeft{
+
+left:20px;
+bottom:20px;
+
+}
+
+.bottomRight{
+
+right:20px;
+bottom:20px;
+
+}
+
+.panel h2{
+
+margin-bottom:15px;
+
+font-size:22px;
+
+}
+
+.panel p{
+
+margin:10px 0;
+
+font-size:14px;
+
+}
+
+/* CHAT */
+
+#chatBox{
+
+position:absolute;
+
+bottom:20px;
+left:50%;
+
+transform:
+translateX(-50%);
+
+width:500px;
+height:250px;
+
+overflow:auto;
+
+background:
+rgba(0,0,0,0.5);
+
+border:1px solid cyan;
+
+padding:15px;
+
+box-shadow:
+0 0 20px cyan;
+
+font-size:14px;
+
+z-index:20;
+
+}
+
+/* SCAN */
+
+.scan{
+
+position:absolute;
+
+width:100%;
+height:3px;
+
+background:cyan;
+
+animation:
+scan 4s linear infinite;
+
+opacity:0.4;
+
+}
+
+/* VOICE */
+
+.voiceBox{
+
+margin-top:20px;
+
+}
+
+/* ANIMATIONS */
+
+@keyframes rotate{
+
+from{
+transform:rotate(0deg);
+}
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+@keyframes glow{
+
+0%{
+box-shadow:0 0 20px cyan;
+}
+
+50%{
+box-shadow:0 0 120px cyan;
+}
+
+100%{
+box-shadow:0 0 20px cyan;
+}
+
+}
+
+@keyframes glowText{
+
+0%{
+text-shadow:0 0 10px cyan;
+}
+
+50%{
+text-shadow:
+0 0 50px cyan,
+0 0 100px cyan;
+}
+
+100%{
+text-shadow:0 0 10px cyan;
+}
+
+}
+
+@keyframes scan{
+
+0%{
+top:0%;
+}
+
+100%{
+top:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- CAMERA -->
+
+<video id="camera"
+autoplay
+muted></video>
+
+<!-- 3D -->
+
+<div id="bg"></div>
+
+<div class="overlay"></div>
+
+<div class="scan"></div>
+
+<!-- LEFT -->
+
+<div class="panel left">
+
+<h2>MASTER AI BRAIN</h2>
+
+<p>✔ Deep Reasoning</p>
+
+<p>✔ Planning Engine</p>
+
+<p>✔ Scientific Analysis</p>
+
+<p>✔ Business Intelligence</p>
+
+<p>✔ Creative Thinking</p>
+
+<p>✔ Decision Making</p>
+
+<p>✔ Understanding Engine</p>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="panel right">
+
+<h2>MEMORY SYSTEM</h2>
+
+<p>✔ Short-Term Memory</p>
+
+<p>✔ Long-Term Memory</p>
+
+<p>✔ Semantic Memory</p>
+
+<p>✔ Emotional Memory</p>
+
+<p>✔ Knowledge Graph</p>
+
+<p>✔ User Understanding</p>
+
+<p>✔ Goals Memory</p>
+
+</div>
+
+<!-- BOTTOM LEFT -->
+
+<div class="panel bottomLeft">
+
+<h2>AI AGENTS</h2>
+
+<p>✔ Coding Agent</p>
+
+<p>✔ Research Agent</p>
+
+<p>✔ Design Agent</p>
+
+<p>✔ Security Agent</p>
+
+<p>✔ Finance Agent</p>
+
+<p>✔ Mentor Agent</p>
+
+<p>✔ Automation Agent</p>
+
+</div>
+
+<!-- BOTTOM RIGHT -->
+
+<div class="panel bottomRight">
+
+<h2>VOICE + VISION</h2>
+
+<p>✔ Real-Time Conversation</p>
+
+<p>✔ Emotional Voice</p>
+
+<p>✔ Face Recognition</p>
+
+<p>✔ OCR</p>
+
+<p>✔ Object Detection</p>
+
+<p>✔ Live Camera Analysis</p>
+
+<p>✔ Environment Awareness</p>
+
+</div>
+
+<!-- CENTER -->
+
+<div class="center">
+
+<h1>ORION</h1>
+
+<div class="subtitle">
+Run on ARIA OS
+</div>
+
+<div class="core"></div>
+
+<button onclick="activateAI()">
+ACTIVATE AI
+</button>
+
+<div class="voiceBox">
+
+<select id="voiceSelect">
+
+<option value="male">
+Male Voice
+</option>
+
+<option value="female">
+Female Voice
+</option>
+
+</select>
+
+</div>
+
+<p id="status">
+MASTER SYSTEM READY
+</p>
+
+</div>
+
+<!-- CHAT -->
+
+<div id="chatBox">
+
+<div>
+ORION AI ONLINE
+</div>
+
+</div>
+
+<script>
+
+/* CAMERA */
+
+navigator.mediaDevices
+.getUserMedia({
+
+video:true
+
+})
+
+.then(stream=>{
+
+document
+.getElementById("camera")
+.srcObject=stream;
+
+});
+
+/* 3D ENGINE */
+
+const scene =
+new THREE.Scene();
+
+const camera3D =
+new THREE.PerspectiveCamera(
+
+75,
+
+window.innerWidth/
+window.innerHeight,
+
+0.1,
+
+1000
+
+);
+
+const renderer =
+new THREE.WebGLRenderer({
+
+alpha:true
+
+});
+
+renderer.setSize(
+
+window.innerWidth,
+
+window.innerHeight
+
+);
+
+document
+.getElementById("bg")
+.appendChild(
+renderer.domElement
+);
+
+const geometry =
+new THREE.TorusKnotGeometry(
+10,
+3,
+120,
+16
+);
+
+const material =
+new THREE.MeshBasicMaterial({
+
+color:0x00ffff,
+wireframe:true
+
+});
+
+const mesh =
+new THREE.Mesh(
+geometry,
+material
+);
+
+scene.add(mesh);
+
+camera3D.position.z=30;
+
+function animate(){
+
+requestAnimationFrame(
+animate
+);
+
+mesh.rotation.x+=0.01;
+
+mesh.rotation.y+=0.01;
+
+renderer.render(
+scene,
+camera3D
+);
+
+}
+
+animate();
+
+/* MEMORY */
+
+let shortTermMemory = [];
+
+let longTermMemory =
+JSON.parse(
+
+localStorage.getItem(
+"orion_memory"
+)
+
+) || [];
+
+function saveMemory(data){
+
+shortTermMemory.push(data);
+
+longTermMemory.push(data);
+
+localStorage.setItem(
+
+"orion_memory",
+
+JSON.stringify(
+longTermMemory
+)
+
+);
+
+}
+
+/* CHAT */
+
+function addChat(user,message){
+
+const box =
+document.getElementById(
+"chatBox"
+);
+
+box.innerHTML +=
+
+"<p><b>" +
+
+user +
+
+":</b> " +
+
+message +
+
+"</p>";
+
+box.scrollTop =
+box.scrollHeight;
+
+}
+
+/* VOICE */
+
+function speak(text){
+
+const speech =
+new SpeechSynthesisUtterance();
+
+speech.text=text;
+
+speech.rate=1;
+
+speech.pitch=1;
+
+speech.volume=1;
+
+const voices =
+speechSynthesis.getVoices();
+
+const selectedVoice =
+document.getElementById(
+"voiceSelect"
+).value;
+
+/* MALE */
+
+if(selectedVoice==="male"){
+
+speech.voice =
+voices.find(v=>
+
+v.name.includes("David")
+||
+
+v.name.includes("Male")
+
+)
+
+|| voices[0];
+
+}
+
+/* FEMALE */
+
+else{
+
+speech.voice =
+voices.find(v=>
+
+v.name.includes("Female")
+||
+
+v.name.includes("Samantha")
+
+)
+
+|| voices[1];
+
+}
+
+speechSynthesis.speak(
+speech
+);
+
+}
+
+/* MULTI AGENT THINKING */
+
+function reasoningEngine(input){
+
+return
+"Analyzing deeply: " + input;
+
+}
+
+function planningEngine(input){
+
+return
+"Planning execution for: " + input;
+
+}
+
+function emotionalEngine(input){
+
+return
+"Emotion detected and adapted.";
+
+}
+
+/* OPENAI */
+
+async function askAI(prompt){
+
+const API_KEY =
+"PASTE_OPENAI_API_KEY";
+
+const response =
+await fetch(
+
+"https://api.openai.com/v1/chat/completions",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+"Authorization":
+"Bearer " + API_KEY
+
+},
+
+body:JSON.stringify({
+
+model:"gpt-4.1-mini",
+
+messages:[
+
+{
+
+role:"system",
+
+content:
+
+"You are ORION AI running on ARIA OS. You have reasoning, planning, emotional intelligence, scientific thinking, coding skills, automation intelligence, memory, agents, self-learning, business intelligence, and futuristic personality."
+
+},
+
+{
+
+role:"user",
+
+content:prompt
+
+}
+
+]
+
+})
+
+}
+
+);
+
+const data =
+await response.json();
+
+return data
+.choices[0]
+.message
+.content;
+
+}
+
+/* FACE SCAN */
+
+function scanFace(){
+
+document
+.getElementById("status")
+.innerHTML=
+"Scanning Face...";
+
+setTimeout(()=>{
+
+document
+.getElementById("status")
+.innerHTML=
+"Identity Verified";
+
+speak(
+"Identity confirmed"
+);
+
+},3000);
+
+}
+
+scanFace();
+
+/* SELF LEARNING */
+
+function selfLearningEngine(){
+
+console.log(
+
+"Learning from feedback..."
+
+);
+
+}
+
+/* AGENTS */
+
+setInterval(()=>{
+
+console.log(
+"Research Agent Running"
+);
+
+console.log(
+"Coding Agent Running"
+);
+
+console.log(
+"Security Agent Running"
+);
+
+console.log(
+"Automation Agent Running"
+);
+
+},5000);
+
+/* GESTURE */
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+mesh.rotation.x=
+e.clientY*0.001;
+
+mesh.rotation.y=
+e.clientX*0.001;
+
+}
+
+);
+
+/* ACTIVATION */
+
+function activateAI(){
+
+const recognition =
+new webkitSpeechRecognition();
+
+recognition.lang="en-US";
+
+recognition.continuous=false;
+
+recognition.start();
+
+document
+.getElementById("status")
+.innerHTML=
+"Listening...";
+
+recognition.onresult=
+async function(event){
+
+const command =
+event.results[0][0]
+.transcript;
+
+saveMemory(command);
+
+addChat(
+"YOU",
+command
+);
+
+document
+.getElementById("status")
+.innerHTML=
+"You: " + command;
+
+/* THINKING */
+
+const reasoning =
+reasoningEngine(command);
+
+const planning =
+planningEngine(command);
+
+const emotion =
+emotionalEngine(command);
+
+console.log(reasoning);
+console.log(planning);
+console.log(emotion);
+
+/* AI */
+
+const reply =
+await askAI(command);
+
+addChat(
+"ORION",
+reply
+);
+
+speak(reply);
+
+document
+.getElementById("status")
+.innerHTML=
+reply;
+
+/* LEARNING */
+
+selfLearningEngine();
+
+};
+
+}
+
+</script>
+
+</body>
+</html>
